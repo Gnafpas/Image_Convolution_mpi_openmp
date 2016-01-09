@@ -28,9 +28,9 @@
 /* Weighted 3x3 smoothing kernel with Gaussian blur */
 const static int radius = 3;
 const static int kernel[3][3] = {
-    { 1, 1, 1 },
-    { 1, 1, 1 },
-    { 1, 1, 1 }
+    { 1, 0, -1 },
+    { 0, 0, 0},
+    { -1, 0, 1 }
 };
 static int sum = 0;
 
