@@ -28,9 +28,9 @@
 /* Weighted 3x3 smoothing kernel with Gaussian blur */
 const static int radius = 3;
 const static int kernel[3][3] = {
-    { 1, 0, -1 },
-    { 0, 0, 0},
-    { -1, 0, 1 }
+    { 0, -1, 0 },
+    { -1, 5, -1},
+    { 0, -1, 0 }
 };
 static int sum = 0;
 
@@ -370,7 +370,8 @@ int main(int argc,char **argv){
     
     double ts,te,tes,tee;
     double local_computation_time = 0.0, local_communication_time = 0.0;
-    int iter,offset,global_convergence = false;
+    int iter,offset,global_convergence = false,channel;
+    unsigned char *temp;
     
     int check_freq = (int) sqrt(iterations);
     if(rank == master)
@@ -417,8 +418,8 @@ int main(int argc,char **argv){
         }
         te = MPI_Wtime();
         local_communication_time += te-ts;
+        
         ts = te;
-        int channel;
         for(channel=0; channel<channels; ++channel)
         /* #pragma omp for collapse(2) */
             for(i=0; i<bheight-2; ++i)
@@ -470,7 +471,7 @@ int main(int argc,char **argv){
         }
         
         /* swap buffers */
-        unsigned char *temp = data;
+        temp = data;
         data = buffer;
         buffer = temp;
         
