@@ -414,7 +414,6 @@ int main(int argc,char **argv){
         if(neighbor[7] != MPI_PROC_NULL){
             MPI_Start(&request[14 + offset]);
             MPI_Start(&request[15 + offset]);
-            
         }
         te = MPI_Wtime();
         local_communication_time += te-ts;
@@ -440,7 +439,7 @@ int main(int argc,char **argv){
         ts = te;
         for(i=0; i<8; ++i)
             if(neighbor[i] != MPI_PROC_NULL){
-                MPI_Wait(&request[2*i + offset],MPI_STATUS_IGNORE);
+               // MPI_Wait(&request[2*i + offset],MPI_STATUS_IGNORE);
                 MPI_Wait(&request[2*i+1 + offset],MPI_STATUS_IGNORE);
             }
         te = MPI_Wtime();
